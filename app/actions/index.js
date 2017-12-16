@@ -1,8 +1,15 @@
-import { FETCHING_DATA, SIGN_IN, SIGN_OUT, IS_SIGNED_IN } from '../constants'
+import { FETCHING_DATA, SIGN_IN, SIGN_OUT, IS_SIGNED_IN, SEND_DATA } from '../constants'
 
 export function fetchData() {
   return {
     type: FETCHING_DATA
+  }
+}
+
+export function sendData(payload) {
+  return {
+    type: SEND_DATA,
+    payload
   }
 }
 

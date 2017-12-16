@@ -2,9 +2,10 @@ import React from 'react'
 import { View } from 'react-native'
 import { Card, Button, Text } from "react-native-elements";
 
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { onSignOut } from '../api/auth'
-
+import * as Actions from '../actions'
 
 
 const ProfileScreen = ({navigation}) => {
@@ -43,7 +44,9 @@ function mapStateToProps (state) {
 }
 
 function mapDispatchToProps (dispatch) {
-  return {}
+  return {
+    actions: bindActionCreators(Actions, dispatch)
+  }
 }
 
 export default connect(

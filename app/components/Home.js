@@ -1,12 +1,19 @@
 import React from 'react'
 import { TouchableHighlight, View, Text, StyleSheet } from 'react-native'
+import { Card, Button} from "react-native-elements";
 
+import { bindActionCreators } from 'redux'
+import * as Actions from '../actions'
 import { connect } from 'react-redux'
 import { fetchData } from '../actions'
 
 let styles
 
-const HomeScreen = ({fetchData, appData}) => {
+/*<TouchableHighlight style={button} onPress={() => actions.fetchData()}>
+  <Text style={buttonText}>Load Data</Text>
+</TouchableHighlight>*/
+
+const HomeScreen = ({appData, actions}) => {
 
 	const {
     container,
@@ -19,9 +26,17 @@ const HomeScreen = ({fetchData, appData}) => {
   return (
 		<View style={container}>
 	      <Text style={text}>Redux Examples</Text>
-	      <TouchableHighlight style={button} onPress={() => fetchData()}>
-	        <Text style={buttonText}>Load Data</Text>
-	      </TouchableHighlight>
+        <Button
+          backgroundColor="#0b7eff"
+          title="SEND YELL"
+          onPress={() => actions.sendData({ 
+            "tweetText": "Hello WarsawJS !!!",  
+            "author": "5a349ce460c6090004150d4c",
+            "like_counter": 0, 
+            "comment_counter": 0
+            })}
+        />
+	      
 	      <View style={mainContent}>
 	      {
 	        appData.isFetching && <Text>Loading</Text>
@@ -71,7 +86,7 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    fetchData: () => dispatch(fetchData())
+    actions: bindActionCreators(Actions, dispatch)
   }
 }
 
