@@ -43,10 +43,14 @@ const HomeScreen = ({appData, actions}) => {
 	      }
 	      {
 	        appData.data.length ? (
-	          appData.data.map((person, i) => {
+	          appData.data.map((yell, i) => {
 	            return <View key={i} >
-	              <Text>Name: {person.name}</Text>
-	              <Text>Age: {person.age}</Text>
+	              <Text>Id: {yell._id}</Text>
+                <Text>Tweet: {yell.tweet_text}</Text>
+                <Text>Author: {yell.author}</Text>
+                <Text>Like: {yell.like_counter}</Text>
+                <Text>Comment: {yell.comment_counter}</Text>
+                <Text>Created at: {yell.createdAt}</Text>
 	            </View>
 	          })
 	        ) : null

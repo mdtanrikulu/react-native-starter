@@ -3,6 +3,7 @@ import io from 'socket.io-client'
 import { eventChannel } from 'redux-saga';
 import { fork, take, call, put, cancel } from 'redux-saga/effects';
 import getPeople from '../api/getPeople'
+import {fetchData} from '../actions/'
 
 function connect() {
   const socket = io('https://yell-server-side.herokuapp.com');
@@ -17,6 +18,7 @@ function connect() {
 function subscribe(socket) {
   return eventChannel(emit => {
     socket.on('yellAll', (data) => {
+    	emit(fetchData(data.reverse()));
       alert(data.length)
     });
     return () => {};
