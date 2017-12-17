@@ -1,8 +1,9 @@
-import { FETCHING_DATA, FETCHING_DATA_SUCCESS, FETCHING_DATA_FAILURE } from '../constants'
+import { FETCHING_DATA, FETCHING_DATA_SUCCESS, FETCHING_DATA_FAILURE, CHANGE_HEIGHT } from '../constants'
 const initialState = {
   data: [],
   dataFetched: false,
   isFetching: false,
+  yellViewHeight: 80,
   error: false
 }
 
@@ -24,6 +25,11 @@ export default function dataReducer (state = initialState, action) {
         ...state,
         isFetching: false,
         error: true
+      }
+    case CHANGE_HEIGHT:
+      return {
+        ...state,
+        yellViewHeight: action.height
       }
     default:
       return state

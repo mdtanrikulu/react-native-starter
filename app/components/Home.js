@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableHighlight, View, Text, StyleSheet, Image, ScrollView } from 'react-native'
+import { TouchableHighlight, View, Text, StyleSheet, Image, ScrollView, TextInput } from 'react-native'
 import { Card, Button} from "react-native-elements";
 
 import { bindActionCreators } from 'redux'
@@ -22,10 +22,16 @@ const HomeScreen = ({appData, actions}) => {
     buttonText,
     mainContent
   } = styles
+  let yellViewHeight = { height: appData.yellViewHeight};
 
   return (
 		<View style={container}>
-	      <Text style={text}>Redux Examples</Text>
+      <TextInput
+        style={styles.yellInput}
+        multiline = {true}
+        numberOfLines = {4}
+
+      />
         <Button
           backgroundColor="#0b7eff"
           title="SEND YELL"
@@ -43,12 +49,12 @@ const HomeScreen = ({appData, actions}) => {
 	        appData.isFetching && <Text>Loading</Text>
 	      }
 	      {
-	        appData.data.length ? (
+          appData.data.length ? (
 	          appData.data.map((yell, i) => {
-	            return <View style={styles.yellView} key={i} >
-                <View style={styles.yellText}>
-	              <Text style={styles.yellTextStyle}>{yell.tweetText}</Text>
-                </View>
+	            return <View style={[styles.yellView, yellViewHeight]} key={i} >
+                <TouchableHighlight style={styles.yellText} onPress={() => (appData.yellViewHeight > 85 ?  actions.changeHeight(80) : actions.changeHeight(380)) }>
+	              <Text style={styles.yellTextStyle}>{person.tweetText}</Text>
+                </TouchableHighlight>
                 <View style={styles.yellFooter}>
                   <TouchableHighlight onPress={() => alert("like")}>
                     <Image
@@ -77,7 +83,15 @@ const HomeScreen = ({appData, actions}) => {
 
 styles = StyleSheet.create({
   container: {
-    marginTop: 100
+    marginTop: 20,
+    padding: 10,
+  },
+  yellInput: {
+    height: 80,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    marginBottom: 10,
+    padding: 5,
   },
   text: {
     textAlign: 'center'
@@ -94,11 +108,10 @@ styles = StyleSheet.create({
   },
   mainContent: {
     margin: 10,
-    display: 'flex',
+    height: 420,
   },
   yellView: {
     marginTop: 10,
-    height:80,
     backgroundColor: 'white',
     borderRadius: 10,
     borderWidth: 0.5,
