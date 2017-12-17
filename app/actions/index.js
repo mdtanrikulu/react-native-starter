@@ -1,4 +1,4 @@
-import { FETCHING_DATA, SIGN_IN, SIGN_OUT, IS_SIGNED_IN, SEND_DATA } from '../constants'
+import { FETCHING_DATA, SIGN_IN, SIGN_OUT, IS_SIGNED_IN, SEND_DATA, CHANGE_HEIGHT } from '../constants'
 
 export function fetchData() {
   return {
@@ -10,6 +10,13 @@ export function sendData(payload) {
   return {
     type: SEND_DATA,
     payload
+  }
+}
+
+export function changeHeight(height) {
+  return {
+    type: CHANGE_HEIGHT,
+    height
   }
 }
 

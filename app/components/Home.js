@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableHighlight, View, Text, StyleSheet, Image, ScrollView } from 'react-native'
+import { TouchableHighlight, View, Text, StyleSheet, Image, ScrollView, TextInput } from 'react-native'
 import { Card, Button} from "react-native-elements";
 
 import { bindActionCreators } from 'redux'
@@ -22,6 +22,7 @@ const HomeScreen = ({appData, actions}) => {
     buttonText,
     mainContent
   } = styles
+  let yellViewHeight = { height: appData.yellViewHeight};
 
   const appDataArr = [
     {_id: "5a350b5aeaed37087a441a5d", tweetText: "Hello world!!!", author: "5a349ce460c6090004150d4c", like_counter: 16, comment_counter: 7},
@@ -37,7 +38,12 @@ const HomeScreen = ({appData, actions}) => {
 
   return (
 		<View style={container}>
-	      <Text style={text}>Redux Examples</Text>
+      <TextInput
+        style={styles.yellInput}
+        multiline = {true}
+        numberOfLines = {4}
+
+      />
         <Button
           backgroundColor="#0b7eff"
           title="SEND YELL"
@@ -57,10 +63,10 @@ const HomeScreen = ({appData, actions}) => {
 	      {
           appDataArr.length ? (
           appDataArr.map((person, i) => {
-	            return <View style={styles.yellView} key={i} >
-                <View style={styles.yellText}>
+	            return <View style={[styles.yellView, yellViewHeight]} key={i} >
+                <TouchableHighlight style={styles.yellText} onPress={() => (appData.yellViewHeight > 85 ?  actions.changeHeight(80) : actions.changeHeight(380)) }>
 	              <Text style={styles.yellTextStyle}>{person.tweetText}</Text>
-                </View>
+                </TouchableHighlight>
                 <View style={styles.yellFooter}>
                   <TouchableHighlight onPress={() => alert("like")}>
                     <Image
@@ -68,7 +74,7 @@ const HomeScreen = ({appData, actions}) => {
                       source={require('../img/likeicon.png')}
                     />
                   </TouchableHighlight>
-	              <Text style={styles.yellLike}>{person.like_counter}</Text>
+	              <Text style={styles.yellLike }>{person.like_counter}</Text>
                   <TouchableHighlight onPress={() => alert("comment")}>
                     <Image
                       style={styles.commentIcon}
@@ -89,7 +95,15 @@ const HomeScreen = ({appData, actions}) => {
 
 styles = StyleSheet.create({
   container: {
-    marginTop: 100
+    marginTop: 20,
+    padding: 10,
+  },
+  yellInput: {
+    height: 80,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    marginBottom: 10,
+    padding: 5,
   },
   text: {
     textAlign: 'center'
@@ -106,11 +120,10 @@ styles = StyleSheet.create({
   },
   mainContent: {
     margin: 10,
-    display: 'flex',
+    height: 420,
   },
   yellView: {
     marginTop: 10,
-    height:80,
     backgroundColor: 'white',
     borderRadius: 10,
     borderWidth: 0.5,
