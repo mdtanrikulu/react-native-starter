@@ -1,17 +1,18 @@
 import React from 'react'
-import { TouchableHighlight, View, Text, StyleSheet, Image, ScrollView, TextInput } from 'react-native'
+import { TouchableHighlight, View, Text, StyleSheet, Image, ScrollView, TextInput, Animated} from 'react-native'
 import { Card, Button} from "react-native-elements";
 
 import { bindActionCreators } from 'redux'
 import * as Actions from '../actions'
 import { connect } from 'react-redux'
 import { fetchData } from '../actions'
+import { isSignedIn } from '../api/auth'
 
 let styles
 
-/*<TouchableHighlight style={button} onPress={() => actions.fetchData()}>
-  <Text style={buttonText}>Load Data</Text>
-</TouchableHighlight>*/
+function calculateFontSize(likes){
+  return likes > 0 ? Math.atan(likes) * 14 : 11
+}
 
 const HomeScreen = ({appData, actions}) => {
 
@@ -32,7 +33,7 @@ const HomeScreen = ({appData, actions}) => {
         multiline = {true}
         numberOfLines = {4}
         ref={ el => yellInput = el }
-
+        maxLength = {280}
       />
         <Button
           backgroundColor="#0b7eff"
@@ -60,10 +61,19 @@ const HomeScreen = ({appData, actions}) => {
 	          appData.data.map((yell, i) => {
 	            return <View style={[styles.yellView, yellViewHeight]} key={i} >
                 <TouchableHighlight style={styles.yellText} onPress={() => (appData.yellViewHeight > 85 ?  actions.changeHeight(80) : actions.changeHeight(380)) }>
-	              <Text style={styles.yellTextStyle}>{yell.tweetText}</Text>
+	              <Text style={{
+                    fontFamily: 'Cochin', 
+                    fontSize: calculateFontSize(yell.like_counter),
+                  }}>{yell.tweetText}</Text>
                 </TouchableHighlight>
                 <View style={styles.yellFooter}>
-                  <TouchableHighlight onPress={() => alert("like")}>
+                  <TouchableHighlight onPress={
+                    () => isSignedIn()
+                    .then((author) => actions.applaude({ 
+                        "yellId": yell._id,
+                        "author": author
+                    }))
+                  }>
                     <Image
                       style={styles.likeIcon}
                       source={require('../img/likeicon.png')}

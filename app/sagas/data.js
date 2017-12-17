@@ -1,4 +1,4 @@
-import { FETCHING_DATA, FETCHING_DATA_SUCCESS, FETCHING_DATA_FAILURE, SEND_DATA } from '../constants'
+import { FETCHING_DATA, FETCHING_DATA_SUCCESS, FETCHING_DATA_FAILURE, SEND_DATA, APPLAUDE } from '../constants'
 import io from 'socket.io-client'
 import { eventChannel } from 'redux-saga';
 import { fork, take, call, put, cancel } from 'redux-saga/effects';
@@ -9,7 +9,6 @@ function connect() {
   const socket = io('https://yell-server-side.herokuapp.com');
   return new Promise(resolve => {
     socket.on('connect', () => {
-    	alert("connected!");
       	resolve(socket);
     });
   });
@@ -18,8 +17,7 @@ function connect() {
 function subscribe(socket) {
   return eventChannel(emit => {
     socket.on('yellAll', (data) => {
-    	emit(fetchData(data.reverse()));
-      alert(data.length)
+    	emit(fetchData(data.reverse()))
     });
     return () => {};
   });
@@ -41,8 +39,14 @@ function* read(socket) {
 //     yield put({ type: FETCHING_DATA_FAILURE })
 //   }
 // }
+function* applaude(socket) {
+  while (true) {
+    const { payload } = yield take(APPLAUDE);
+    socket.emit('yellLike', payload );
+  }
+}
 
-function* write(socket) {
+function* sendData(socket) {
   while (true) {
     const { payload } = yield take(SEND_DATA);
     socket.emit('yellSend', payload );
@@ -51,7 +55,8 @@ function* write(socket) {
 
 function* handleIO(socket) {
   	yield fork(read, socket);
-  	yield fork(write, socket);
+  	yield fork(sendData, socket);
+    yield fork(applaude, socket);
 }
 
 function* baseSaga () {

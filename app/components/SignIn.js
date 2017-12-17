@@ -11,9 +11,9 @@ const SignInScreen = ({navigation}) => {
   <View style={{ paddingVertical: 20 }}>
     <Card>
         <FormLabel>Nickname</FormLabel>
-        <FormInput ref={ el => nameInput = el } placeholder="Nickname..." />
+        <FormInput textInputRef={ el => nameInput = el } placeholder="Nickname..." />
         <FormLabel>Password</FormLabel>
-        <FormInput ref={ el => passInput = el } secureTextEntry placeholder="Password..." />
+        <FormInput textInputRef={ el => passInput = el } secureTextEntry placeholder="Password..." />
 
         <Button
           buttonStyle={{ marginTop: 20 }}
@@ -21,8 +21,8 @@ const SignInScreen = ({navigation}) => {
           title="SIGN IN"
           onPress={(e) => {
             onSignIn({
-              nickname: nameInput.value,
-              password: passInput.value
+              nickname: nameInput._lastNativeText,
+              password: passInput._lastNativeText
             }).then((data) => {
                 navigation.navigate("SignedIn")
             });
