@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableHighlight, View, Text, StyleSheet } from 'react-native'
+import { TouchableHighlight, View, Text, StyleSheet, Image, ScrollView } from 'react-native'
 import { Card, Button} from "react-native-elements";
 
 import { bindActionCreators } from 'redux'
@@ -36,25 +36,40 @@ const HomeScreen = ({appData, actions}) => {
             "comment_counter": 0
             })}
         />
-	      
+
 	      <View style={mainContent}>
+          <ScrollView>
 	      {
 	        appData.isFetching && <Text>Loading</Text>
 	      }
 	      {
 	        appData.data.length ? (
 	          appData.data.map((yell, i) => {
-	            return <View key={i} >
-	              <Text>Id: {yell._id}</Text>
-                <Text>Tweet: {yell.tweet_text}</Text>
-                <Text>Author: {yell.author}</Text>
-                <Text>Like: {yell.like_counter}</Text>
-                <Text>Comment: {yell.comment_counter}</Text>
-                <Text>Created at: {yell.createdAt}</Text>
+	            return <View style={styles.yellView} key={i} >
+                <View style={styles.yellText}>
+	              <Text style={styles.yellTextStyle}>{yell.tweetText}</Text>
+                </View>
+                <View style={styles.yellFooter}>
+                  <TouchableHighlight onPress={() => alert("like")}>
+                    <Image
+                      style={styles.likeIcon}
+                      source={require('../img/likeicon.png')}
+                    />
+                  </TouchableHighlight>
+	              <Text style={styles.yellLike}>{yell.like_counter}</Text>
+                  <TouchableHighlight onPress={() => alert("comment")}>
+                    <Image
+                      style={styles.commentIcon}
+                      source={require('../img/commenticon.png')}
+                    />
+                  </TouchableHighlight>
+                <Text style={styles.yellComment}>{yell.comment_counter}</Text>
+                </View>
 	            </View>
 	          })
 	        ) : null
 	      }
+          </ScrollView>
 	      </View>
 	    </View>
 	)
@@ -79,7 +94,51 @@ styles = StyleSheet.create({
   },
   mainContent: {
     margin: 10,
-  }
+    display: 'flex',
+  },
+  yellView: {
+    marginTop: 10,
+    height:80,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    borderWidth: 0.5,
+    borderColor: 'white',
+  },
+  yellText: {
+    padding: 5,
+    height:45,
+  },
+  yellTextStyle: {
+    fontFamily: 'Cochin',
+  },
+  yellFooter: {
+    paddingTop: 5,
+    paddingLeft: 5,
+    paddingRight: 5,
+    height: 20,
+    flexDirection: 'row',
+  },
+  yellLike: {
+    flex: 1,
+    fontFamily: 'Cochin',
+  },
+  yellComment: {
+    flex: 1,
+    fontFamily: 'Cochin',
+  },
+  likeIcon: {
+    marginTop: -5,
+    marginLeft: 40,
+    width: 30,
+    height: 30,
+  },
+  commentIcon: {
+    width: 25,
+    height: 25,
+    marginRight: 5,
+    marginLeft: 30,
+  },
+
 })
 
 function mapStateToProps (state) {
