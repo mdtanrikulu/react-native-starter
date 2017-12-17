@@ -14,8 +14,17 @@ function calculateFontSize(likes){
   return likes > 0 ? Math.atan(likes) * 14 : 11
 }
 
-const HomeScreen = ({appData, actions}) => {
+class HomeScreen extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {yellText: ''};
+  }
+
+render() {
+
+  const { appData, actions } = this.props
+  const { yellText } = this.state
 	const {
     container,
     text,
@@ -23,8 +32,8 @@ const HomeScreen = ({appData, actions}) => {
     buttonText,
     mainContent
   } = styles
+  
   let yellViewHeight = { height: appData.yellViewHeight};
-  let yellInput
 
   return (
 		<View style={container}>
@@ -32,21 +41,23 @@ const HomeScreen = ({appData, actions}) => {
         style={styles.yellInput}
         multiline = {true}
         numberOfLines = {4}
-        ref={ el => yellInput = el }
+        value={yellText}
+        onChangeText = {(yellText) => this.setState({yellText})}
         maxLength = {280}
       />
         <Button
           backgroundColor="#0b7eff"
           title="YELL IT"
           onPress={() => {
-            if(yellInput._lastNativeText){
+            console.log("yellInput.value", yellText);
+            if(yellText){
               actions.sendData({ 
-              "tweetText": yellInput._lastNativeText,
+              "tweetText": yellText,
               "author": "5a349ce460c6090004150d4c",
               "like_counter": 0, 
               "comment_counter": 0
               })
-              yellInput.setNativeProps({text: ''});
+              this.setState({yellText: ""})
             }
           }}
         />
@@ -96,6 +107,7 @@ const HomeScreen = ({appData, actions}) => {
 	      </View>
 	    </View>
 	)
+}
 }
 
 styles = StyleSheet.create({

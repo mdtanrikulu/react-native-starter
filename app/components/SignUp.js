@@ -6,27 +6,27 @@ import { connect } from 'react-redux'
 import { onSignUp } from '../api/auth'
 
 const SignUpScreen = ({navigation}) => {
-  let nickname, password, repassword
+  let nameInput, passInput, repassInput
   return (
   <View style={{ paddingVertical: 20 }}>
     <Card>
       <FormLabel>Nickname</FormLabel>
-      <FormInput ref={ el => nickname = el } placeholder="Email address..." />
+      <FormInput textInputRef={ el => nameInput = el } placeholder="Nickname..." />
       <FormLabel>Password</FormLabel>
-      <FormInput ref={ el => password = el } secureTextEntry placeholder="Confirm Password..." />
+      <FormInput textInputRef={ el => passInput = el } secureTextEntry placeholder="Password..." />
       <FormLabel>Re-enter Password</FormLabel>
-      <FormInput ref={ el => repassword = el } secureTextEntry placeholder="Confirm Password..." />
+      <FormInput textInputRef={ el => repassInput = el } secureTextEntry placeholder="Confirm Password..." />
 
       <Button
         buttonStyle={{ marginTop: 20 }}
         backgroundColor="#03A9F4"
         title="SIGN UP"
         onPress={() => {
-          onSignUp({
-            nickname: nickname.value,
-            password: password.value,
-            repassword: repassword.value
-          }).then(() => navigation.navigate("SignedIn"));
+          if(passInput._lastNativeText === repassInput._lastNativeText)
+            onSignUp({
+              nickname: nameInput._lastNativeText,
+              password: passInput._lastNativeText
+            }).then(() => navigation.navigate("SignedIn"));
         }}
       />
       <Button

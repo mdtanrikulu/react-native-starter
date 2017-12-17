@@ -13,12 +13,17 @@ export const onSignUp = (cridentials) => new Promise((resolve, reject) => {
         body: JSON.stringify(cridentials)
     })
     .then(function (data) {   
-        alert(JSON.stringify(data));
-        AsyncStorage.setItem(USER_KEY, "true")
-        resolve(true);
+        if(data && data.status == 200){
+          const body = JSON.parse(data._bodyInit)
+          console.log("data", body._id);
+          AsyncStorage.setItem(USER_KEY, body._id)
+          resolve(true);
+        } else {
+          alert(data.status);
+        }
     })  
     .catch(function (error) {
-      alert(error);
+      alert("error", error);
     });
 })
 
