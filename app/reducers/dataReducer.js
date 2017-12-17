@@ -10,11 +10,10 @@ const initialState = {
 export default function dataReducer (state = initialState, action) {
   switch (action.type) {
     case FETCHING_DATA:
-      return {
-        ...state,
-        data: [],
-        isFetching: true
-      }
+      return Object.assign({}, state, {
+          data: action.payload,
+          isFetching: true
+        });
     case FETCHING_DATA_SUCCESS:
       return {
         ...state,
