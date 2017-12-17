@@ -23,18 +23,6 @@ const HomeScreen = ({appData, actions}) => {
     mainContent
   } = styles
 
-  const appDataArr = [
-    {_id: "5a350b5aeaed37087a441a5d", tweetText: "Hello world!!!", author: "5a349ce460c6090004150d4c", like_counter: 16, comment_counter: 7},
-    {_id: "5a350eb37c76c20a00014b0e", tweetText: "This is tweet two!!!", author: "5a349ce460c6090004150d4c", like_counter: 0, comment_counter: 0},
-    {_id: "5a350fddc85a890a6d194657", tweetText: "This is tweet three!!!", author: "5a349ce460c6090004150d4c", like_counter: 0, comment_counter: 0},
-    {_id: "5a350b5aeaed37087a441a5d", tweetText: "Hello world!!!", author: "5a349ce460c6090004150d4c", like_counter: 16, comment_counter: 7},
-    {_id: "5a350eb37c76c20a00014b0e", tweetText: "This is tweet two!!!", author: "5a349ce460c6090004150d4c", like_counter: 0, comment_counter: 0},
-    {_id: "5a350fddc85a890a6d194657", tweetText: "This is tweet three!!!", author: "5a349ce460c6090004150d4c", like_counter: 0, comment_counter: 0},
-    {_id: "5a350b5aeaed37087a441a5d", tweetText: "Hello world!!!", author: "5a349ce460c6090004150d4c", like_counter: 16, comment_counter: 7},
-    {_id: "5a350eb37c76c20a00014b0e", tweetText: "This is tweet two!!!", author: "5a349ce460c6090004150d4c", like_counter: 0, comment_counter: 0},
-    {_id: "5a350fddc85a890a6d194657", tweetText: "This is tweet three!!!", author: "5a349ce460c6090004150d4c", like_counter: 0, comment_counter: 0}
-];
-
   return (
 		<View style={container}>
 	      <Text style={text}>Redux Examples</Text>
@@ -55,11 +43,11 @@ const HomeScreen = ({appData, actions}) => {
 	        appData.isFetching && <Text>Loading</Text>
 	      }
 	      {
-          appDataArr.length ? (
-          appDataArr.map((person, i) => {
+	        appData.data.length ? (
+	          appData.data.map((yell, i) => {
 	            return <View style={styles.yellView} key={i} >
                 <View style={styles.yellText}>
-	              <Text style={styles.yellTextStyle}>{person.tweetText}</Text>
+	              <Text style={styles.yellTextStyle}>{yell.tweetText}</Text>
                 </View>
                 <View style={styles.yellFooter}>
                   <TouchableHighlight onPress={() => alert("like")}>
@@ -68,14 +56,14 @@ const HomeScreen = ({appData, actions}) => {
                       source={require('../img/likeicon.png')}
                     />
                   </TouchableHighlight>
-	              <Text style={styles.yellLike}>{person.like_counter}</Text>
+	              <Text style={styles.yellLike}>{yell.like_counter}</Text>
                   <TouchableHighlight onPress={() => alert("comment")}>
                     <Image
                       style={styles.commentIcon}
                       source={require('../img/commenticon.png')}
                     />
                   </TouchableHighlight>
-                <Text style={styles.yellComment}>{person.comment_counter}</Text>
+                <Text style={styles.yellComment}>{yell.comment_counter}</Text>
                 </View>
 	            </View>
 	          })
