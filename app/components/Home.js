@@ -23,6 +23,7 @@ const HomeScreen = ({appData, actions}) => {
     mainContent
   } = styles
   let yellViewHeight = { height: appData.yellViewHeight};
+  let yellInput
 
   return (
 		<View style={container}>
@@ -30,17 +31,23 @@ const HomeScreen = ({appData, actions}) => {
         style={styles.yellInput}
         multiline = {true}
         numberOfLines = {4}
+        ref={ el => yellInput = el }
 
       />
         <Button
           backgroundColor="#0b7eff"
-          title="SEND YELL"
-          onPress={() => actions.sendData({ 
-            "tweetText": "Hello WarsawJS !!!",  
-            "author": "5a349ce460c6090004150d4c",
-            "like_counter": 0, 
-            "comment_counter": 0
-            })}
+          title="YELL IT"
+          onPress={() => {
+            if(yellInput._lastNativeText){
+              actions.sendData({ 
+              "tweetText": yellInput._lastNativeText,
+              "author": "5a349ce460c6090004150d4c",
+              "like_counter": 0, 
+              "comment_counter": 0
+              })
+              yellInput.setNativeProps({text: ''});
+            }
+          }}
         />
 
 	      <View style={mainContent}>
