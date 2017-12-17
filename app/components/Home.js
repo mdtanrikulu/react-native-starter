@@ -53,7 +53,7 @@ const HomeScreen = ({appData, actions}) => {
 	          appData.data.map((yell, i) => {
 	            return <View style={[styles.yellView, yellViewHeight]} key={i} >
                 <TouchableHighlight style={styles.yellText} onPress={() => (appData.yellViewHeight > 85 ?  actions.changeHeight(80) : actions.changeHeight(380)) }>
-	              <Text style={styles.yellTextStyle}>{person.tweetText}</Text>
+	              <Text style={styles.yellTextStyle}>{yell.tweetText}</Text>
                 </TouchableHighlight>
                 <View style={styles.yellFooter}>
                   <TouchableHighlight onPress={() => alert("like")}>
